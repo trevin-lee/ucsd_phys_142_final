@@ -59,8 +59,8 @@ def compute_m(args):
     return m_avg
 
 if __name__ == '__main__':
-    T_range = np.linspace(0.1, 5, 10)    # Temperatures from 0.1 to 5
-    B_range = np.linspace(-1.0, 1.0, 10)   # Magnetic fields from -1.0 to 1.0
+    T_range = np.linspace(0.1, 5, 20)    # Temperatures from 0.1 to 5
+    B_range = np.linspace(-1.0, 1.0, 20)   # Magnetic fields from -1.0 to 1.0
 
     grid_args = [(T, B) for B in B_range for T in T_range]
     
