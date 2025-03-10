@@ -1,2 +1,0 @@
-
-from .mcmc import MCMC
