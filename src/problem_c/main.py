@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 
 # Global constants and parameters
-N = 100       # Lattice size
+N = 100        # Lattice size
 J = 1         # Interaction strength
 KB = 1        # Boltzmann constant
 steps = 200_000   # Total Monte Carlo steps
@@ -48,7 +48,6 @@ def MCMC(lattice_spins, temp, steps, B):
 def compute_m(args):
     T, B = args
     logging.info(f"Starting computation for T={T:.3f}, B={B:.3f}")
-    # Initialize lattice: ordered for T<Tc and nonzero B, random otherwise.
     if T < 2.269 and B != 0:
         lattice = np.ones((N, N)) if B > 0 else -np.ones((N, N))
     else:
@@ -60,20 +59,16 @@ def compute_m(args):
     return m_avg
 
 if __name__ == '__main__':
-    # Define the ranges for temperature and magnetic field
-    T_range = np.linspace(0.1, 5, 100)    # Temperatures from 0.1 to 5
-    B_range = np.linspace(-1.0, 1.0, 100)   # Magnetic fields from -1.0 to 1.0
+    T_range = np.linspace(0.1, 5, 10)    # Temperatures from 0.1 to 5
+    B_range = np.linspace(-1.0, 1.0, 10)   # Magnetic fields from -1.0 to 1.0
 
-    # Create a list of (T, B) pairs for the grid.
     grid_args = [(T, B) for B in B_range for T in T_range]
     
     logging.info("Starting multiprocessing pool")
-    # Use a multiprocessing Pool to parallelize the simulation over the grid.
     with multiprocessing.Pool() as pool:
         results = pool.map(compute_m, grid_args)
     logging.info("Multiprocessing pool complete")
 
-    # Reshape the results to a 2D array where rows correspond to B and columns to T.
     M_data = np.array(results).reshape((len(B_range), len(T_range)))
 
     with open("data.pkl", "wb") as f:
